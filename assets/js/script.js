@@ -119,18 +119,6 @@ $(".card .list-group").sortable({
   scroll: false,
   tolerance: "pointer",
   helper: "clone",
-  activate: function(event) {
-
-  },
-  deactivate: function(event) {
-
-  },
-  over: function(event) {
-
-  },
-  out: function(event) {
- 
-  },
   update: function(event) {
     var tempArr = [];
     $(this).children().each(function() {
@@ -164,12 +152,6 @@ $("#trash").droppable({
   tolerance: "touch",
   drop: function(event, ui) {
     ui.draggable.remove();
-  },
-  over: function(event, ui) {
-    console.log("over");
-  },
-  out: function(event, ui) {
-    console.log("out");
   }
 });
 
