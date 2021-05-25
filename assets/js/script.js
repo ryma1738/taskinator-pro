@@ -14,6 +14,8 @@ var createTask = function(taskText, taskDate, taskList) {
   taskLi.append(taskSpan, taskP);
   console.log("worked")
 
+  auditTask(taskLi);
+
   // append to ul list on the page
   $("#list-" + taskList).append(taskLi);
 };
@@ -55,7 +57,23 @@ $(".list-group").on("click", "p", function() {
 
   $(this).replaceWith(textInput);
   textInput.trigger("focus");
-})
+});
+
+function auditTask(taskEl) {
+  var date = $(taskEl).find("span").text().trim();
+
+  var time = moment(date, "L").set("hour", 17);
+
+  $(taskEl).removeClass("list-group-item-warning list-group-item-danger")
+
+  if (moment().isAfter(time)) {
+    $(taskEl).addClass("list-group-item-danger");
+  }
+  else if (Math.abs(moment().diff(time, "days")) <=2) {
+    $(taskEl).addClass("list-group-item-warning");
+  }
+}
+
 
 $(".list-group").on("blur", "textarea", function() {
   var text = $(this)
@@ -75,7 +93,7 @@ $(".list-group").on("blur", "textarea", function() {
   .text(text);
 
   $(this).replaceWith(taskP);
-})
+});
 
 $(".list-group").on("click", "span", function() {
   var date = $(this)
@@ -119,6 +137,8 @@ $(".list-group").on("change", "input[type='text']", function() {
   .text(date);
 
   $(this).replaceWith(taskSpan);
+
+  auditTask($(taskSpan).closest(".list-group-item"));
 });
 
 $(".card .list-group").sortable({
